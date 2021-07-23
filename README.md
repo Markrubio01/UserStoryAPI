@@ -14,6 +14,7 @@ Things you need to cover:
 * Database creation
     rails db:create
     rails generate mode User
-  
+* Run
+    rails server -b 127.0.0.1 -p 3002 -e development
 
 
