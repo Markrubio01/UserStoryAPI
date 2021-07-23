@@ -3,5 +3,5 @@ Rails.application.routes.draw do
   post 'user/register_user'
   get 'user/login_user'
   get 'user/get_user_data'
-  post 'user/update_user'
+  post 'user/update_user_contact_info'
 end

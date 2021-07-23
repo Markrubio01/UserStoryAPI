@@ -7,7 +7,7 @@ class User < ApplicationRecord
         success = false
         error_message = "Username already exists"
       else
-        user = self.create({user_name: user_name, password: password})
+        user = self.create({user_name: user_name, password: Base64.decode64(password)})
         UserContactInfo.create({user_id: user.id, first_name: first_name, last_name: last_name, billing_address: billing_address, delivery_address: delivery_address})
         success = true
       end
@@ -21,17 +21,17 @@ class User < ApplicationRecord
 
 
   def self.login_user(user_name, password)
+    puts User.all.to_json
     error_message = ""
     id = 0
     begin
-      puts User.last.to_json
       user = self.find_by('user_name = ?', user_name)
       if(user.blank?)
         success = false
         error_message = "Username does not exists"
       else
         id = user['id']
-        if(user['password'] == password)
+        if(user['password'] == (password))
           success = true
         else
           success = false
@@ -47,12 +47,10 @@ class User < ApplicationRecord
     return {success: success, error_message: error_message, id: id}
   end
 
-  def self.update_user(id, user_name, password, first_name, last_name, billing_address, delivery_address)
+  def self.update_user_contact_info(id, first_name, last_name, billing_address, delivery_address)
     error_message = ""
 
     begin
-      user = self.find(id)
-      user.update({user_name: user_name, password: password})
       user_contact_info = UserContactInfo.find_by("user_id = ?", id)
       user_contact_info.update({first_name: first_name, last_name: last_name, billing_address: billing_address, delivery_address: delivery_address})
       success = true
