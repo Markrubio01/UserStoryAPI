@@ -30,6 +30,16 @@ class UserController < ApplicationController
     billing_address = params['billing_address']
     delivery_address = params['delivery_address']
 
+    user = User.update_user(id, user_name, password, first_name, last_name, billing_address, delivery_address)
 
+    render json: user
+  end
+
+  def get_user_data
+    id = params['id']
+
+    user = User.get_user_data(id)
+
+    render json: user
   end
 end
